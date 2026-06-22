@@ -1,0 +1,61 @@
+<header class="page-head">
+    <div>
+        <p class="eyebrow">Administrador</p>
+        <h1>Unidades y usuarios</h1>
+    </div>
+</header>
+<div class="grid-2">
+    <section class="panel">
+        <h2>Nueva unidad</h2>
+        <form method="post" action="/admin/unidades"><input class="form-control mb-2" name="nombre"
+                placeholder="Nombre unidad" required><textarea class="form-control mb-2" name="descripcion"
+                placeholder="Descripción"></textarea><button class="btn btn-dark">Crear unidad</button></form>
+    </section>
+    <section class="panel">
+        <h2>Nuevo usuario</h2>
+        <form method="post" action="/admin/usuarios"><input class="form-control mb-2" name="nombre" placeholder="Nombre"
+                required><input class="form-control mb-2" type="email" name="correo" placeholder="Correo"
+                required><input class="form-control mb-2" name="password" placeholder="Contraseña inicial"
+                required><select class="form-select mb-2" name="id_rol">
+                <% roles.forEach(r=>{ %><option value="<%= r.id_rol %>">
+                        <%= r.nombre %>
+                    </option>
+                    <% }) %>
+            </select><select class="form-select mb-2" name="id_unidad">
+                <% unidades.forEach(u=>{ %><option value="<%= u.id_unidad %>">
+                        <%= u.nombre %>
+                    </option>
+                    <% }) %>
+            </select><button class="btn btn-dark">Crear usuario</button></form>
+    </section>
+</div>
+<section class="panel mt-4">
+    <h2>Usuarios activos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Unidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% usuarios.forEach(u=>{ %><tr>
+                    <td>
+                        <%= u.nombre %>
+                    </td>
+                    <td>
+                        <%= u.correo %>
+                    </td>
+                    <td>
+                        <%= u.rol %>
+                    </td>
+                    <td>
+                        <%= u.unidad || '-' %>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</section>

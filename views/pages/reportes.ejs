@@ -1,0 +1,59 @@
+<header class="page-head">
+    <div>
+        <p class="eyebrow">Reportería</p>
+        <h1>Asistencia y ausentismo</h1>
+    </div>
+</header>
+<section class="panel">
+    <form class="row g-2 mb-3">
+        <div class="col-md-3"><input class="form-control" type="date" name="fecha_inicio"
+                value="<%= filtros.fecha_inicio %>"></div>
+        <div class="col-md-3"><input class="form-control" type="date" name="fecha_fin" value="<%= filtros.fecha_fin %>">
+        </div>
+        <% if(user.rol==='Administrador' ){ %>
+            <div class="col-md-4"><select class="form-select" name="id_unidad">
+                    <option value="">Todas las unidades</option>
+                    <% unidades.forEach(u=>{ %><option value="<%= u.id_unidad %>"
+                            <%=String(filtros.id_unidad)===String(u.id_unidad)?'selected':'' %>><%= u.nombre %>
+                        </option>
+                        <% }) %>
+                </select></div>
+            <% } %>
+                <div class="col-md-2"><button class="btn btn-dark w-100">Filtrar</button></div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Unidad</th>
+                <th>Evento</th>
+                <th>Visitante</th>
+                <th>Documento</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% rows.forEach(r=>{ %><tr>
+                    <td>
+                        <%= new Date(r.fecha).toLocaleDateString('es-CL') %>
+                    </td>
+                    <td>
+                        <%= r.unidad %>
+                    </td>
+                    <td>
+                        <%= r.descripcion %>
+                    </td>
+                    <td>
+                        <%= r.nombre_completo %>
+                    </td>
+                    <td>
+                        <%= r.numero_documento %>
+                    </td>
+                    <td><span class="badge <%= r.estado==='Asistió'?'text-bg-success':'text-bg-warning' %>">
+                            <%= r.estado %>
+                        </span></td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</section>

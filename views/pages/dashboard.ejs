@@ -1,0 +1,57 @@
+<header class="page-head">
+    <div>
+        <p class="eyebrow">Panel principal</p>
+        <h1>Dashboard de asistencia</h1>
+    </div><span class="pill">
+        <%= user.rol %>
+    </span>
+</header>
+<section class="kpis">
+    <article><span>Programadas hoy</span><strong>
+            <%= kpis.programadas || 0 %>
+        </strong></article>
+    <article><span>Ingresos efectivos</span><strong>
+            <%= kpis.asistieron || 0 %>
+        </strong></article>
+    <article><span>Pendientes / ausentes</span><strong>
+            <%= kpis.pendientes || 0 %>
+        </strong></article>
+</section>
+<section class="panel">
+    <h2>Agenda del día</h2>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Actividad</th>
+                    <th>Unidad</th>
+                    <th>Invitados</th>
+                    <th>Ingresos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% agenda.forEach(e=> { %><tr>
+                        <td>
+                            <%= new
+                                Date(e.fecha_hora_inicio).toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})
+                                %>
+                        </td>
+                        <td>
+                            <%= e.descripcion %>
+                        </td>
+                        <td>
+                            <%= e.unidad %>
+                        </td>
+                        <td>
+                            <%= e.invitados %>
+                        </td>
+                        <td><span class="badge text-bg-success">
+                                <%= e.ingresos || 0 %>
+                            </span></td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+{
+    "name": "sistema-asistencia-san-joaquin",
+    "version": "1.0.0",
+    "description": "Sistema de registro y control de asistencia a reuniones y actividades - Sede San Joaquín",
+    "main": "src/app.js",
+    "scripts": {
+        "start": "node src/app.js",
+        "dev": "nodemon src/app.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "connect-flash": "^0.1.1",
+        "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
+        "express": "^4.19.2",
+        "express-ejs-layouts": "^2.5.1",
+        "express-session": "^1.18.0",
+        "helmet": "^7.1.0",
+        "method-override": "^3.0.0",
+        "mysql2": "^3.10.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    }
+}

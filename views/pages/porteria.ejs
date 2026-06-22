@@ -1,0 +1,60 @@
+<header class="page-head">
+    <div>
+        <p class="eyebrow">Guardia</p>
+        <h1>Control de acceso del día</h1>
+    </div>
+</header>
+<section class="panel"><input class="form-control mb-3" id="tableSearch"
+        placeholder="Buscar visitante, documento, unidad o actividad">
+    <div class="table-responsive">
+        <table class="table align-middle" data-filter-table>
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Visitante</th>
+                    <th>Documento</th>
+                    <th>Actividad</th>
+                    <th>Unidad</th>
+                    <th>Vehículo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% esperados.forEach(v=>{ %><tr>
+                        <td>
+                            <%= new
+                                Date(v.fecha_hora_inicio).toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})
+                                %>
+                        </td>
+                        <td>
+                            <%= v.nombre_completo %><br><small>
+                                    <%= v.telefono || '' %>
+                                </small>
+                        </td>
+                        <td>
+                            <%= v.tipo_documento %>
+                                <%= v.numero_documento %>
+                        </td>
+                        <td>
+                            <%= v.descripcion %>
+                        </td>
+                        <td>
+                            <%= v.unidad %>
+                        </td>
+                        <td>
+                            <%= v.vehiculo || '-' %>
+                        </td>
+                        <td>
+                            <% if(v.id_ingreso){ %><span class="badge text-bg-success">Ingresó <%= v.hora_ingreso %>
+                                        </span>
+                                <% } else { %>
+                                    <form method="post" action="/porteria/<%= v.id_invitacion %>/ingreso"><button
+                                            class="btn btn-sm btn-dark">Marcar ingreso</button></form>
+                                    <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,88 @@
+<header class="page-head">
+    <div>
+        <p class="eyebrow">Funcionarios</p>
+        <h1>Eventos e invitaciones</h1>
+    </div>
+</header>
+<div class="grid-2">
+    <section class="panel">
+        <h2>Crear actividad</h2>
+        <form method="post" action="/eventos"><input class="form-control mb-2" name="descripcion"
+                placeholder="Descripción o motivo" required><input class="form-control mb-2" name="lugar"
+                placeholder="Lugar" required><input class="form-control mb-2" type="datetime-local"
+                name="fecha_hora_inicio" required><input class="form-control mb-2" type="datetime-local"
+                name="fecha_hora_fin"><input class="form-control mb-2" type="number" name="cupo"
+                placeholder="Cupo máximo">
+            <% if(user.rol==='Administrador' ){ %><select class="form-select mb-2" name="id_unidad">
+                    <% opciones.unidades.forEach(u=>{ %><option value="<%= u.id_unidad %>">
+                            <%= u.nombre %>
+                        </option>
+                        <% }) %>
+                </select>
+                <% } %><button class="btn btn-dark w-100">Guardar evento</button>
+        </form>
+    </section>
+    <section class="panel">
+        <h2>Invitar visitante</h2>
+        <form method="post" action="/eventos/invitar"><select class="form-select mb-2" name="id_evento">
+                <% eventos.forEach(e=>{ %><option value="<%= e.id_evento %>">
+                        <%= e.descripcion %>
+                    </option>
+                    <% }) %>
+            </select><select class="form-select mb-2" name="tipo_documento">
+                <option>RUT</option>
+                <option>Pasaporte</option>
+            </select><input class="form-control mb-2" name="numero_documento" placeholder="RUT o pasaporte"
+                required><input class="form-control mb-2" name="nombre_completo" placeholder="Nombre completo"
+                required><input class="form-control mb-2" name="telefono" placeholder="Teléfono"><input
+                class="form-control mb-2" type="date" name="fecha_visita" required><input class="form-control mb-2"
+                type="time" name="hora_visita" required><label class="form-check mb-2"><input class="form-check-input"
+                    type="checkbox" name="viene_auto" data-toggle-auto> Viene en automóvil</label>
+            <div class="auto-fields d-none"><input class="form-control mb-2" name="marca" placeholder="Marca"><input
+                    class="form-control mb-2" name="modelo" placeholder="Modelo"><input class="form-control mb-2"
+                    name="color" placeholder="Color"><input class="form-control mb-2" name="patente"
+                    placeholder="Patente"></div><button class="btn btn-dark w-100">Registrar invitación</button>
+        </form>
+    </section>
+</div>
+<section class="panel mt-4">
+    <h2>Eventos registrados</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Unidad</th>
+                <th>Creador</th>
+                <th>Sumar anfitrión</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% eventos.forEach(e=>{ %><tr>
+                    <td>
+                        <%= new Date(e.fecha_hora_inicio).toLocaleString('es-CL') %>
+                    </td>
+                    <td>
+                        <%= e.descripcion %>
+                    </td>
+                    <td>
+                        <%= e.unidad %>
+                    </td>
+                    <td>
+                        <%= e.creador %>
+                    </td>
+                    <td>
+                        <form class="d-flex gap-2" method="post" action="/eventos/<%= e.id_evento %>/anfitriones">
+                            <select class="form-select" name="id_usuario">
+                                <% opciones.usuarios.filter(u=>!user.id_unidad || u.id_unidad===user.id_unidad ||
+                                    user.rol==='Administrador').forEach(u=>{ %><option value="<%= u.id_usuario %>">
+                                        <%= u.nombre %>
+                                    </option>
+                                    <% }) %>
+                            </select><button class="btn btn-sm btn-outline-dark">Agregar</button></form>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</section>
